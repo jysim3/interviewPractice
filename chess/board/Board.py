@@ -23,7 +23,7 @@ class Board():
             list('pppppppp'), # 2
             list('        '), # 3
             list('        '), # 4
-            list('     q  '), # 5 => f5 => board[4][5]
+            list('        '), # 5 => f5 => board[4][5]
             list('        '), # 6
             list('PPPPPPPP'), # 7
             list('RNBQKBNR'), # 1
