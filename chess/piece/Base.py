@@ -16,8 +16,19 @@ class Base():
 
 
     @property
-    def possible_moves() -> List:
+    def possible_moves(self) -> List:
         raise NotImplementedError()
+
+    @property
+    def valid_moves(self) -> List:
+        valid = []
+        for new_position in self.possible_moves:
+            new_position_piece = self.board.get_position(position=new_position)
+            if isinstance(new_position_piece, Base) and new_position_piece.is_white == self.is_white:
+                continue
+            valid.append(new_position)
+        return valid
+
 
     def move(self, target):
         if type(target) == str:

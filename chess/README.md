@@ -64,6 +64,12 @@ I was able to create a fairly successful attempt with the following feature
 
 TODO: Pinning and castle can be done easier now that all threats are calculated
 
+#### After 6 hours
+
+* Pinning is forbidden
+* Checkmate is calculated
+
+TODO: Castling and en passant (not going to attempt as this is simple short circuit checks)
 
  You can try it out by running the file by:
  ```
