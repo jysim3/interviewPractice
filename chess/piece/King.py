@@ -17,7 +17,7 @@ class King(Base):
             for y in range(-1, 2):
                 if x == 0 and y == 0:
                     continue
-                if 0 < row + x < 8 and 0 < col + y < 8:
+                if 0 <= row + x < 8 and 0 <= col + y < 8:
                     moves.append(Position(row=row+x, col=col+y))
 
         return moves

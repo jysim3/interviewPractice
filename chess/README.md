@@ -57,6 +57,13 @@ I was able to create a fairly successful attempt with the following feature
  * Resolve pinning
  * Castleing + En passant
 
+#### After 5 hours
+
+* Threats are calculated
+* Checks are calculated
+
+TODO: Pinning and castle can be done easier now that all threats are calculated
+
 
  You can try it out by running the file by:
  ```

@@ -20,7 +20,7 @@ class Rook(Base):
             if not 0 < new_r < 8:
                 break
             moves.append(Position(row=new_r, col=col))
-            if self.board.get_position(row=new_r, col=col) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=col), Base):
                 break
 
         # left
@@ -29,7 +29,7 @@ class Rook(Base):
             if not 0 < new_r < 8:
                 break
             moves.append(Position(row=new_r, col=col))
-            if self.board.get_position(row=new_r, col=col) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=col), Base):
                 break
 
         # up
@@ -38,7 +38,7 @@ class Rook(Base):
             if not 0 < new_c < 8:
                 break
             moves.append(Position(col=new_c, row=row))
-            if self.board.get_position(col=new_c, row=row) != " " :
+            if isinstance(self.board.get_position(col=new_c, row=row), Base):
                 break
 
         # down
@@ -47,7 +47,7 @@ class Rook(Base):
             if not 0 < new_c < 8:
                 break
             moves.append(Position(col=new_c, row=row))
-            if self.board.get_position(col=new_c, row=row) != " " :
+            if isinstance(self.board.get_position(col=new_c, row=row), Base):
                 break
 
         return moves

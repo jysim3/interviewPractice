@@ -1,6 +1,7 @@
 from piece import Bishop, Knight, Pawn, Rook, Queen, King
 from piece.Position import Position
-from piece.Base import InvalidMoveError
+from piece.Base import InvalidMoveError, Base as BasePiece
+from typing import Union
 import re
 
 
@@ -17,7 +18,7 @@ representation = {
 class Board():
     def __init__(self):
         self.white_turn = True
-        self.board = [
+        self._board = [
                 # abcdefgh
             list('rnbqkbnr'), # 1
             list('pppppppp'), # 2
@@ -26,8 +27,18 @@ class Board():
             list('        '), # 5 => f5 => board[4][5]
             list('        '), # 6
             list('PPPPPPPP'), # 7
-            list('RNBQKBNR'), # 1
+            list('RNBQKBNR'), # 8
         ]
+        self._pieces = {}
+        for col, line in enumerate(self._board):
+            for row, piece_notation in enumerate(line):
+                if piece_notation == " ":
+                    continue
+                position = Position(row=row, col=col)
+                piece_class = representation[piece_notation.lower()]
+                piece = piece_class(position, piece_notation.islower(), self)
+
+                self._pieces[position.__repr__()] = piece
 
     def move(self, move):
         match = re.match('([rnbkqpRNBKQP]?)([a-h][1-8])([a-h][1-8])', move)
@@ -44,30 +55,57 @@ class Board():
             raise InvalidMoveError("Wrong turn")
 
         origin = Position(r=origin)
-        if self.board[origin.col][origin.row] != piece:
-            raise InvalidMoveError("Different/No piece at the selected position, {}<->{}".format(
-                self.board[origin.col][origin.row], piece
-            ))
-        
         # get piece
-        piece_object = representation[piece.lower()](origin, piece.islower(), self)
-        # try move piece, return new position
-        new = piece_object.move(new)
+        try:
+            piece_object = self.get_position(position=origin, pop = True)
+            if not piece_object or piece_object.piece_name != piece:
+                raise InvalidMoveError("Different/No piece at the selected position, {}<->{}".format(
+                    self._board[origin.col][origin.row], piece
+                ))
+            # try move piece, return new position
+            new = piece_object.move(new)
+        except InvalidMoveError:
+            self._pieces[origin.__repr__()] = piece_object
+            raise
 
-        self.board[origin.col][origin.row] = " "
-        self.board[new.col][new.row] = piece
+
+        self._pieces[new.__repr__()] = piece_object
+
+        self._board[origin.col][origin.row] = " "
+        self._board[new.col][new.row] = piece_object.piece_name
 
         self.white_turn = not self.white_turn
 
-    def __repr__(self):
-        return '\n'.join(reversed(list(''.join(y for y in x) for x in self.board)))
+        white, _ = self.threats
 
-    def get_position(self, row=None, col=None, position=None):
+        for piece in self._pieces.values():
+            if piece.piece_name == "K" and piece.position in black:
+                print("CHECK")
+            if piece.piece_name == "k" and piece.position in white:
+                print("CHECK")
+
+    def __repr__(self):
+        return '\n'.join(reversed(list(''.join(y for y in x) for x in self._board)))
+
+    def get_position(self, row=None, col=None, position=None, pop = False) -> Union[None, BasePiece]:
         if position:
             if type(position) == str:
                 position = Position(r=position)
         else:
             position = Position(row=row, col=col)
 
-        return self.board[position.col][position.row]
+        if pop:
+            return self._pieces.pop(position.__repr__(), None)
+        return self._pieces.get(position.__repr__(), None)
+
+    @property
+    def threats(self):
+        white = set()
+        black = set()
+        for piece in self._pieces.values():
+            if piece.is_white:
+                white = white.union(piece.targets)
+            else:
+                black = black.union(piece.targets)
+        return black, white
 

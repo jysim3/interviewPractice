@@ -34,3 +34,6 @@ class Position():
     def __lt__(self, other):
         return self.__repr__() < other.__repr__()
 
+    def __hash__(self):
+        return hash(self.__repr__())
+

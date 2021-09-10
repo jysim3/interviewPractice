@@ -22,17 +22,25 @@ class Base():
     def move(self, target):
         if type(target) == str:
             target = Position(target)
-        print(self.possible_moves)
         if target not in self.possible_moves:
             raise InvalidMoveError
 
         # if new position is in the same team
         new_position_piece = self.board.get_position(position=target)
-        if new_position_piece != ' ' and new_position_piece.isupper() != self.is_white:
+        if isinstance(new_position_piece, Base) and new_position_piece.is_white == self.is_white:
             raise InvalidMoveError
 
         self.position = target
         return target
 
+    @property
+    def piece_name(self):
+        return self.PIECE_NAME.lower() if self.is_white else self.PIECE_NAME.upper()
+
     def __repr__(self):
-        return self.PIECE_NAME + self.position.__repr__()
+        return self.piece_name + self.position.__repr__()
+
+    @property
+    def targets(self) -> set:
+        return set(self.possible_moves)
+

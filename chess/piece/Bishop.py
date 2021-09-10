@@ -21,7 +21,7 @@ class Bishop(Base):
             if not (0 <= new_r < 8 and 0 <= new_c < 8):
                 break
             moves.append(Position(row=new_r, col=new_c))
-            if self.board.get_position(row=new_r, col=new_c) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=new_c), Base):
                 break
 
         # top right
@@ -31,7 +31,7 @@ class Bishop(Base):
             if not (0 <= new_r < 8 and 0 <= new_c < 8):
                 break
             moves.append(Position(row=new_r, col=new_c))
-            if self.board.get_position(row=new_r, col=new_c) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=new_c), Base):
                 break
 
         # bottom left
@@ -41,7 +41,7 @@ class Bishop(Base):
             if not (0 <= new_r < 8 and 0 <= new_c < 8):
                 break
             moves.append(Position(row=new_r, col=new_c))
-            if self.board.get_position(row=new_r, col=new_c) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=new_c), Base):
                 break
 
         # bottom right
@@ -51,6 +51,6 @@ class Bishop(Base):
             if not (0 <= new_r < 8 and 0 <= new_c < 8):
                 break
             moves.append(Position(row=new_r, col=new_c))
-            if self.board.get_position(row=new_r, col=new_c) != " " :
+            if isinstance(self.board.get_position(row=new_r, col=new_c), Base):
                 break
         return moves
