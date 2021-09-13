@@ -14,7 +14,7 @@ An exercise created by me and attempting by me.
 
 ###### 2 generating 
 
-* Find the fastest path from A to B
+* Find the fastest path from A to B!
 
 
 
@@ -25,3 +25,11 @@ An exercise created by me and attempting by me.
 * A Star with heuristic implemented
 * Bidirectional BFS implemented
 * Bidirectional A Star with heuristic implemented
+
+
+![image](https://user-images.githubusercontent.com/30685486/133100640-436c2ed5-fb9a-4c6b-bbe4-2f421dbef023.png)
+
+`*` represents the search space
+`X` represents the obstacles
+`.` represents the final path
+`@` represents the start point
